@@ -126,7 +126,106 @@ router.post('/', function(req, res) {
       }
     })
 });
+/*
+//ADDED MISSING GOOGLE AUTH CALLBACK
+router.get('/loginorsignupviagoogle', function(req, res) {
+  var google = require('googleapis');
+  var OAuth2 = google.auth.OAuth2;
+  var plus = google.plus('v1');
+  var oauth2Client = new OAuth2(
+    config.google_access,
+    config.google_secret,
+    config.endpoint + "/login"
+  );
+  var loginUser = function(user, cb) {
+    crypo.randomBytes(48, function(ex, buf) {
+      var token = buf.toString('hex');
+      var session = {
+        token: token,
+        created_at: new Date()
+      };
+      if(!user.sessions)
+        user.sessions = [];
+      user.sessions.push(session);
+      user.save(function(err, user) {
+        cb(session);
+      });
+    });
+  };
+  var code = req.query.code;
+  oauth2Client.getToken(code, function(err, tokens) {
+    if (err) res.status(400).json(err);
+    else {
+      var apiUrl = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + tokens.access_token;
 
+      var finalizeLogin = function(session){
+        var secure = process.env.NODE_ENV == "production" || process.env.NODE_ENV == "staging";
+        res.cookie('sdsession', session.token, { httpOnly: true, secure: secure});
+        res.cookie('sdsession', session.token, { httpOnly: true });
+        res.status(201).json(session);
+      };
+
+      request.get(apiUrl, function(error, response, body) {
+        if (error) res.status(400).json(error);
+        else {
+          const data = JSON.parse(body);
+          const email = data.email;
+          const name = data.name;
+          db.User.findOne({email: email}, function (err, user) {
+            if (user) {
+              // login new google user
+              if (user.account_type == "google") {
+                // just login
+                loginUser(user, (session) => {
+                  finalizeLogin(session);
+                });
+              } else {
+                res.status(400).json({"error":"user_email_already_used"});
+              }
+            } else {
+              const u = new User({
+                email: email,
+                account_type: "google",
+                nickname: name,
+                avatar_thumb_uri: body.picture,
+                preferences: {
+                  language: req.i18n.locale
+                },
+                confirmed_at: new Date()
+              });
+              u.save(function (err) {
+                if (err) res.status(400).json(err);
+                else {
+                  var homeSpace = new Space({
+                    name: req.i18n.__("home"),
+                    space_type: "folder",
+                    creator: u
+                  });
+                  homeSpace.save(function(err, homeSpace) {
+                    if (err) res.status(400).json(err);
+                    else {
+                      u.home_folder_id = homeSpace._id;
+                      u.save(function(err){
+                        if (err) res.sendStatus(400);
+                        else {
+                          mailer.sendMail(u.email, req.i18n.__("welcome_subject"), req.i18n.__("welcome_body"), {});
+                          loginUser(u, function(session) {
+                            finalizeLogin(session);
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+});
+*/
 router.get('/current', function(req, res, next) {
   if (req.user) {
     res.status(200).json(req.user);
@@ -237,7 +336,7 @@ router.post('/:user_id/avatar', (req, res, next) => {
           else {
             user.avatar_thumb_uri = url;
             user.save().then(() => {
-              fs.unlink(localResizedFilePath, (err) => {
+              fs.unlinkSync(localResizedFilePath, (err) => {
                 if (err) {
                   console.error(err);
                   res.status(400).json(err);

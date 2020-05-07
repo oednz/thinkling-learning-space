@@ -44,7 +44,7 @@
       </div>
     </div>
 
-   <!--  <div class="dialog-section no-p" id="color-hex">
+     <div class="dialog-section no-p" id="color-hex">
       <button id="add-remove-color" class="btn btn-toggle btn-transparent btn-icon" >
         <span class="btn-option">
           <span class="icon icon-circle-check"></span>
@@ -59,7 +59,7 @@
         <label class="hash">#</label>
         <input class="input" v-model="color_picker_rgb" spellcheck="false" maxlength="6" type="text">
       </div>
-    </div> -->
+    </div> 
   </div>
 
   <div class="color-palette r-10" v-bind:class="{invis:color_mode!='palette'}">
@@ -74,7 +74,7 @@
   </div>
 </div>
 
-<!--div class="dialog-section no-b" style="margin-top:-10px">
+<div class="dialog-section no-b" style="margin-top:-10px">
   <div class="tab-switch round options-2" v-bind:class="{'option-2':color_mode=='picker'}">
     <div class="options">
       <span class="option" v-on:click="activate_color_mode('palette')">[[__("palette")]]</span>
@@ -84,9 +84,9 @@
     </div>
     <span class="option-highlight"></span>
   </div>
-</div-->
+</div>
 
-<!--div class="dialog-section no-p-h no-p-b" v-show="opened_dialog=='color-fill'">
+<div class="dialog-section no-p-h no-p-b" v-show="opened_dialog=='color-fill'">
   <div class="form-group no-m">
     <label class="label label-sm">Padding</label> 
     <input class="input no-b no-p text-center text-large" spellcheck="false" type="number" pattern="[0-9]" maxlength="64" value="250" v-model="active_style.padding">
@@ -95,7 +95,7 @@
     </button>
     <span class="input-unit">px</span>
   </div>
-</div-->
+</div>
 
 <div class="dialog-section no-p-h no-p-b" v-show="opened_dialog=='color-stroke'">
   <div class="input-row">
@@ -126,9 +126,9 @@
       <label class="label label-sm text-center">[[__("font_size")]]</label>
       <input class="input no-b no-p text-center text-large" spellcheck="false" type="text" pattern="[0-9]" maxlength="64" v-model="active_style.font_size">
       
-      <!--button tabindex="-1" class="input-drag btn btn-transparent btn-icon" style="cursor: ns-resize;" v-sd-fader="true" sd-fader-var-y="active_style.font_size" sd-fader-min-y="8" sd-fader-max-y="400" sd-fader-sens="0.2">
+      <button tabindex="-1" class="input-drag btn btn-transparent btn-icon" style="cursor: ns-resize;" v-sd-fader="true" sd-fader-var-y="active_style.font_size" sd-fader-min-y="8" sd-fader-max-y="400" sd-fader-sens="0.2">
         <span class="icon icon-triangles-vertical"></span>
-      </button-->
+      </button>
       <span class="input-unit">px</span>
     </div>
 
@@ -140,13 +140,13 @@
       </span>
     </div>
     
-    <!--div class="form-group no-m">
+    <div class="form-group no-m">
       <label class="label label-sm text-center">[[__("line_height")]]</label>
       <input disabled class="input no-b no-p text-center text-large" spellcheck="false" type="text" pattern="[0-9\.]" maxlength="64" v-model="active_style.line_height">
       <button tabindex="-1" class="input-drag btn btn-transparent btn-icon" style="cursor: ns-resize;" v-sd-fader="true" sd-fader-var-y="active_style.line_height" sd-fader-min-y="0.5" sd-fader-max-y="4" sd-fader-step="0.1">
         <span class="icon icon-triangles-vertical"></span>
       </button>
       <span class="input-unit">em</span>
-    </div-->
+    </div>
   </div>
 </div>

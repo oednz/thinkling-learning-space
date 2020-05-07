@@ -99,7 +99,7 @@ var SpacedeckSections = {
       columns: 1,
       column_width: 900,
       row_height: 0,
-      gutter: 0,
+      gutter: 0
     },
 
     color_picker_target: "fill_color",
@@ -110,18 +110,18 @@ var SpacedeckSections = {
     color_picker_opacity: 255,
 
     swatches: [
-      {id:0, hex:"#4a2f7e"},
-      {id:1, hex:"#9b59b6"},
-      {id:2, hex:"#3498db"},
-      {id:3, hex:"#2ecc71"},
-      {id:4, hex:"#f1c40f"},
-      {id:5, hex:"#e67e22"},
-      {id:6, hex:"#d55c4b"},
+      {id:0, hex:"#053008"},
+      {id:1, hex:"#593f62"},
+      {id:2, hex:"#325063"}, 
+      {id:3, hex:"#573946"},
+      {id:4, hex:"#5C3E01"},
+      {id:5, hex:"#32292f"},
+      {id:6, hex:"#4d4730"},
       {id:7, hex:"#6f4021"},
-      {id:8, hex:"#ffffff"},
-      {id:9, hex:"#95a5a6"},
-      {id:10, hex:"#252525"},
-      {id:11, hex:"rgba(0,0,0,0)"},
+      {id:8, hex:"#615252"}, 
+      {id:9, hex:"#000000"},
+      {id:10,hex:"#ffffff"},
+      {id:11, hex:"rgba(0,0,0,0)"}
     ],
     
     swatches_text: [
@@ -132,7 +132,7 @@ var SpacedeckSections = {
       {id:5, hex:"#e67e22"},
       {id:6, hex:"#d55c4b"},
       {id:8, hex:"#ffffff"},
-      {id:10, hex:"#252525"},
+      {id:10, hex:"#252525"}
     ],
 
     fonts: [
@@ -1553,7 +1553,7 @@ var SpacedeckSections = {
 
       //this.opened_dialog = "none";
 
-      var w=300,h=200;
+      var w=325,h=200;
       var z=this.highest_z()+1;
 
       // TODO: find solution for legacy types
@@ -1583,7 +1583,7 @@ var SpacedeckSections = {
         new_item.padding_top = 10;
         new_item.padding_right = 10;
         new_item.padding_bottom = 10;
-        new_item.fill_color = "rgba(255,255,255,1)";
+        new_item.fill_color = "rgba(255,255,255,0)";
         new_item.description = "<p>Text</p>";
       }
 
@@ -1681,14 +1681,14 @@ var SpacedeckSections = {
     },
 
     add_zone: function() {
-      var w = 600;
-      var h = 600;
+      var w = 300;
+      var h = 300;
       var point = this.find_place_for_item(w,h);
 
       var a = {
         space_id: this.active_space._id,
         mime: "x-spacedeck/zone",
-        description: "Zone "+(this.zones.length+1),
+        description: "Step "+(this.zones.length+1),
         x: point.x,
         y: point.y,
         w: w,
@@ -2224,7 +2224,8 @@ var SpacedeckSections = {
       if (this.guest_nickname) return;
       if (this.active_space && this.active_space.access_mode == "public") return;
 
-      //this.add_artifact(this.active_space, "text", null, evt);
+      this.add_artifact(this.active_space, "note", null, evt);
+      //this.start_drawing_scribble(this.active_space);
     },
 
     handle_body_click: function(evt) {
@@ -2383,6 +2384,7 @@ var SpacedeckSections = {
         mime: "image/png",
         description: url,
         state: "uploading",
+        link_uri: url,
         x: point.x,
         y: point.y,
         w: 200,
@@ -2561,6 +2563,7 @@ var SpacedeckSections = {
         this.active_space = space;
         this.space_background_uploading = false;
       }.bind(this));
+      location.reload();
     },
 
     remove_section_background: function() {

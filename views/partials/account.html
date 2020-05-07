@@ -1,4 +1,4 @@
-<div id="team" class="dialog in" style="padding:100px;z-index:20000;position:absolute;width:100%;min-height:100%;background-color:#eee" v-if="active_view == 'account' && user" v-cloak>
+<div id="team" class="dialog in" style="padding:100px;z-index:20000;position:absolute;width:100%;min-height:100%;background-color:#3E3D3D" v-if="active_view == 'account' && user" v-cloak>
 
   <a href="/spaces" class="btn btn-round btn-icon btn-dark btn-md pull-right" style="position:absolute;top:30px;right:30px"><span class="icon icon-cross-0"></span></a>
 
@@ -82,8 +82,8 @@
         </div>
 
         <div class="form-group">
-          <label class="label">Spacedeck.com Data Import</label>
-          <p v-if="!importables">No .ZIP files found in Spacedeck application folder.</p>
+          <label class="label">Saved Zipped Data Import</label>
+          <p v-if="!importables">No .ZIP files found in Thinkling application folder.</p>
           <ul>
             <li v-for="f in importables">{{f}} <button v-on:click="start_zip_import(f)">Start Import</button></li>
           </ul>

@@ -1,17 +1,18 @@
 <header id="landing-header" class="header" v-cloak v-if="(active_view == 'login' || active_view == 'signup' || active_view == 'password-reset' || active_view == 'password-confirm')">
   <div class="header-left">
-    <a class="btn btn-transparent btn-nude" href="/"><img src="/images/sd5-logo.svg" width="190"></a>
+    <a class="btn btn-transparent btn-nude" href="/"><img src="/images/thinkling_logo.png" width="120"></a>
   </div>
 
   <div class="header-right pull-right">
-    <span class="btn-group dark round">
-      {% if (locale != "de") %}<a href="/t/de?r={{active_view}}" class="btn btn-transparent btn-md">Deutsch</a>{% endif %}
+   <!--  <span class="btn-group dark round">
+     {% if (locale != "de") %}<a href="/t/de?r={{active_view}}" class="btn btn-transparent btn-md">Deutsch</a>{% endif %} 
       {% if (locale != "en") %}<a href="/t/en?r={{active_view}}" class="btn btn-transparent btn-md">English</a>{% endif %}
-      {% if (locale != "fr") %}<a href="/t/fr?r={{active_view}}" class="btn btn-transparent btn-md">Français</a>{% endif %}
+      {% if (locale != "fr") %}<a href="/t/fr?r={{active_view}}" class="btn btn-transparent btn-md">Français</a>{% endif %} 
     </span>
 
-    <a class="btn btn-md btn-dark btn-round" href="/login">[[__("login")]]</a>
-    <a class="btn btn-md btn-blue btn-round" href="/signup">[[__("signup")]]</a>
+     <a class="btn btn-md btn-dark btn-round" href="/login">[[__("login")]]</a> 
+     <a class="btn btn-md btn-blue btn-round" href="/signup">[[__("signup")]]</a> -->
+   
   </div>
 </header>
 
@@ -24,13 +25,13 @@
     <div class="content">
       <form v-on:submit="login_submit(user_forms_email, login_password, $event)">
 
-        <span class="btn btn-xs btn-darken pull-right" v-on:click="login_google();">[[__("login_google")]]</span>
+       <!-- <span class="btn btn-xs btn-darken pull-right" v-on:click="login_google();">[[__("login_google")]]</span> -->
 
         <h4>[[__("login")]]</h4>
 
         <div class="tight">
           <div class="form-group">
-            <input class="input" name="email" type="email" required v-model="user_forms_email" placeholder="[[__("email")]]">
+            <input class="input input-transparent" name="email" type="email" required v-model="user_forms_email" placeholder="[[__("email")]]">
           </div>
           <div class="form-group">
             <input class="input" name="password" type="password" required v-model="login_password" placeholder="[[__("password")]]">
@@ -55,26 +56,22 @@
   <div id="signup" v-bind:class="{active : active_view == 'signup'}">
     <div class="content">
       <form v-on:submit="signup_submit($event, user_forms_name, user_forms_email, signup_password, signup_password_confirmation)">
-        <span class="btn btn-xs btn-darken pull-right" v-on:click="login_google();">[[__("login_google")]]</span>
+       <!-- <span class="btn btn-xs btn-darken pull-right" v-on:click="login_google();">[[__("login_google")]]</span> -->
 
         <h4>[[__("signup")]]</h4>
 
         <div class="tight">
 
           <div class="form-group">
-            <input class="input" type="text" id="user-name" v-model="user_forms_name" placeholder="[[__("name")]]" v-focus autofocus>
-          </div>
-
-        </div>
-
-        <div class="tight">
-
-          <div class="form-group">
-            <input class="input" type="email" required id="user-email" v-model="user_forms_email" placeholder="[[__("email")]]">
+            <input class="input input-transparent" type="text" id="user-name" v-model="user_forms_name" placeholder="[[__("name")]]" v-focus autofocus>
           </div>
 
           <div class="form-group">
-            <input class="input" id="user-password" required type="password" v-model="signup_password" placeholder="[[__("password")]]">
+            <input class="input input-transparent" type="email" required id="user-email" v-model="user_forms_email" placeholder="[[__("email")]]">
+          </div>
+
+          <div class="form-group">
+            <input class="input input-transparent" id="user-password" required type="password" v-model="signup_password" placeholder="[[__("password")]]">
           </div>
 
           <div class="form-group">

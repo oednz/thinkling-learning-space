@@ -8,23 +8,50 @@
             <span class="icon icon-cross-1"></span>
           </button>
         </div>
-
-        <div class="modal-body">
-          <div class="modal-section" style="padding-top:0;padding-bottom:20px">
+          <div class="modal-body">
+          <div class="modal-section" v-if="active_space" style="padding-bottom:10px">
             <label class="radio" v-bind:class="{checked:access_settings_space.access_mode=='private'}">
-              <input type="radio" name="access_mode" value="private" v-model="access_settings_space.access_mode" v-on:click="save_space_access_mode($event)"> [[__("mode_private")]]
+              <input type="radio" name="access_mode" value="private" checked="checked" v-model="access_settings_space.access_mode" v-on:click="save_space_access_mode($event)"> [[__("mode_private")]]
             </label>
             <label class="radio" v-bind:class="{checked:access_settings_space.access_mode=='public'}">
               <input type="radio" name="access_mode" value="public" v-model="access_settings_space.access_mode" v-on:click="save_space_access_mode($event)">[[__("mode_public")]]
             </label>
           </div>
+        <div class="modal-header" style="padding-bottom:0">
+          <h4 class="text-left"><span class="icon icon-share icon-sm"></span> [[__("share_view")]]</h4>
+        </div>
+          
+         <div class="modal-section" v-if="active_space" style="padding-bottom:40px">
+           <!-- <h4 class="text-left"><span class="icon icon-link icon-sm"></span> [[__("access_view_link")]] </h4>
+             -->
+            <h5 class="text-left">
+              [[__("access_view_link_desc")]]
+            </h5>
+           
+            <div class="input-group org-add-form">
+              <input id="viewerurl" type="text" class="form-control input input-lg"  v-bind:value="share_base_url+active_space._id"/>
 
-          <div class="modal-section" v-if="active_space" style="padding-bottom:10px">
+              <span class="input-group-btn">
+                <span id="org-add-member" class="btn btn-lg btn-primary clipboard-btn" data-clipboard-target="#viewerurl" v-clipboard>
+                  [[__("copy")]]
+                </span>
+              </span>
+            </div> 
+         </div>   
+     
+        <div class="modal-header" style="padding-bottom:10px">
+        <h4 class="text-left"><span class="icon icon-share icon-sm"></span> [[__("share_colab")]]</h4>
+        </div>      
+        
+          
+
+          <!--
             <h4 class="text-left"><span class="icon icon-link icon-sm"></span> [[__("access_editor_link")]] </h4>
             <p class="text-left">
               [[__("access_editor_link_desc")]]
             </p>
-            
+            -->
+            <div class="modal-section" v-if="active_space" style="padding-bottom:40px">
             <div class="input-group org-add-form">
               <input id="editorurl2" type="text" class="form-control input input-lg"  v-bind:value="share_base + '/s/' + access_settings_space.edit_hash + (access_settings_space.edit_slug ? '-' : '') + access_settings_space.edit_slug"/>
 
@@ -34,6 +61,7 @@
                 </span>
               </span>
             </div>
+            
 
 
             <label class="checkbox" v-bind:class="{checked:access_settings_space.editors_locking}">
@@ -44,9 +72,9 @@
               [[__("access_anonymous_edit_blocking")]]
             </label>
           </div>
-
-          <!-- subsection "invite" -->
-          <div id="new-editor" class="modal-section" style="padding-bottom:20px">
+        <!-- Added condition for logged-in user only -->  
+        <!-- subsection "invite" -->
+          <div v-if="(logged_in && !guest_nickname)" id="new-editor" class="modal-section" style="padding-bottom:20px">
             <h4 class="text-left"><span class="icon icon-user-add icon-sm"></span> [[__('access_new_members')]]</h4>
 
             <div class="form-group">
@@ -116,9 +144,8 @@
               <button class="btn btn-primary btn-md btn-round" v-on:click="close_modal();"> [[__("ok")]] </button>
             </div>
           </div>
-
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>

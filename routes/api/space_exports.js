@@ -22,6 +22,7 @@ var sanitizeHtml = require('sanitize-html');
 
 var express = require('express');
 var router = express.Router({mergeParams: true});
+var os = require('os');
 
 // JSON MAPPINGS
 var userMapping = {
@@ -79,14 +80,14 @@ router.get('/png', function(req, res, next) {
                 var oldPath = url.parse(oldUrl).pathname;
                 uploader.removeFile(oldPath, function(err, res) {});
               }
-              fs.unlink(local_path);
+              fs.unlinkSync(local_path);
             } catch (e) {
               console.error(e);
             }
           });
 
           try {
-            fs.unlink(localResizedFilePath);
+            fs.unlinkSync(localResizedFilePath);
           } catch (e) {
             console.error(e);
           }
@@ -115,7 +116,7 @@ router.get('/pdf', function(req, res, next) {
       res.status(201).json({
         url: url
       });
-      fs.unlink(local_path);
+      fs.unlinkSync(local_path);
     });
   }, (err) => {
     res.status(500).json({
@@ -125,9 +126,14 @@ router.get('/pdf', function(req, res, next) {
 });
 
 router.get('/zip', function(req, res, next) {
-  Artifact.find({
+  db.Artifact.findAll({
+                    where: {
     space_id: req.space._id
-  }, function(err, artifacts) {
+  }}), function(err, artifacts) {
+
+//db.Artifact.findAll({where: {
+//    space_id: req.space._id
+//  }}).then(function(artifacts) {
 
     if (!artifacts || !artifacts.length || err) {
       res.status(404).json({
@@ -136,7 +142,10 @@ router.get('/zip', function(req, res, next) {
       return;
     }
 
-    var localPath = "/tmp/" + req.space._id;
+    //var localPath = "/tmp/" + req.space._id;
+      var localPath = os.tmpdir() + "/" +  req.space._id;
+    
+    
 
     try {
       var files = fs.readdirSync(localPath);
@@ -206,7 +215,9 @@ router.get('/zip', function(req, res, next) {
 
       }, function(err, payloads) {
 
-        var outputPath = '/tmp/' + req.space._id + '.zip';
+       // var outputPath = '/tmp/' + req.space._id + '.zip';
+        var outputPath = os.tmpdir() + "/" + req.space._id + '.zip';
+        
         var output = fs.createWriteStream(outputPath);
         var archive = archiver('zip');
 
@@ -218,7 +229,7 @@ router.get('/zip', function(req, res, next) {
             });
 
             try {
-              fs.unlink(outputPath);
+              fs.unlinkSync(outputPath);
             } catch (e) {
               console.error(e);
             }
@@ -236,7 +247,7 @@ router.get('/zip', function(req, res, next) {
         archive.finalize();
       });
     });
-  });
+   };
 });
 
 router.get('/html', function(req, res) {
@@ -246,6 +257,30 @@ router.get('/html', function(req, res) {
     var space = req.space;
     res.send(space_render.render_space_as_html(space, artifacts));
   });
+});
+
+router.get('/path', (req, res) => {
+  // build up a breadcrumb trail (path)
+  var path = [];
+  var buildPath = (space) => {
+    if (space.parent_space_id) {
+      db.Space.findOne({where:{
+        "_id": space.parent_space_id
+    }}, (err, parentSpace) => {
+        if (space._id == parentSpace._id) {
+          console.log("error: circular parent reference for space " + space._id);
+          res.send("error: circular reference");
+        } else {
+          path.push(parentSpace);
+          buildPath(parentSpace);
+        }
+      });
+    } else {
+      // reached the top
+      res.json(path.reverse());
+    }
+  }
+  buildPath(req.space);
 });
 
 module.exports = router;

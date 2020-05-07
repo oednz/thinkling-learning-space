@@ -46,7 +46,17 @@ SpacedeckUsers = {
         }
       }.bind(this));
     },
+   /* login_google: function(evt) {
+      this.loading_user = true;
 
+      create_oauthtoken(function(data){
+        this.loading_user = false;
+        location.href = data.url;
+      }, function(xhr){
+        this.loading_user = false;
+        alert("could not get oauth token");
+      });
+    },*/
     finalize_login: function(session_token, on_success) {
       this.load_user(function(user) {
         if (this.invitation_token) {

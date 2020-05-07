@@ -1,7 +1,7 @@
 
 /*
-  Spacedeck Directives
-  This module registers custom Vue directives for Spacedeck.
+  Thinkling Directives
+  This module registers custom Vue directives for Thinkling.
 */
 
 function setup_directives() {

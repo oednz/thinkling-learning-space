@@ -41,7 +41,7 @@ function parse_link(data) {
     recommendedWidth = 640 / 2;
     recommendedHeight = 390 / 2;
     sourceLink = embedUri;
-    extraViewClasses = "external-embed";
+    extraViewClasses = "external-embed";   
   } else if (data.match(/http/) && data.replace(/[^<]/g, "").length < 3) {
     
     youtubeMatcher = /youtube\.com\/.*v=([^&<]+)/;
@@ -50,16 +50,18 @@ function parse_link(data) {
     vimeoMatcher = /vimeo.com\/([^<]*)/;
     dailyMotionMatcher = /dailymotion.com\/video\/([^<]*)/;
     googleMapsMatcher = /google.com\/maps\?([^<]*)/;
+    phetMatcher = /cetimeless\.([^<]*)/;
+    MediaMatcher = /media-podcast\.([^<]*)/;
     spacedeckMatcher = new RegExp(location.host + "\/(spaces|folders)\/([0-9a-f]{24})");
-
-    if (m = data.match(youtubeMatcher) || (m = data.match(youtubeMatcher2))) {
-      videoId = m[1];
+    
+      if (m = data.match(youtubeMatcher) || (m = data.match(youtubeMatcher2))) {
+      videoId = m[3];
       html = "<iframe src=\"https://www.youtube.com/embed/" + videoId + "?html5=1&rel=0&showinfo=0&autohide=1\" frameborder=\"0\" allowfullscreen=\"1\"></iframe>";
       recommendedWidth = 640 / 2;
       recommendedHeight = 390 / 2;
       provider_name = "youtube";
       type = "video";
-
+      
     } else if (m = data.match(dailyMotionMatcher)) {
       videoId = m[1];
       html = "<iframe src=\"https://www.dailymotion.com/embed/video/" + videoId + "\" frameborder=\"0\"></iframe>";
@@ -103,14 +105,25 @@ function parse_link(data) {
 
       provider_name = "google";
       type = "map";
+     
+    //Example of customized parsing and embedding selected sites - see also spacedeck_board_artifacts.js for additional config
+
+    } else if ((m = data.match(phetMatcher))|| (m = data.match(MediaMatcher))) {
+      phetUri = m[1];
+      html = "<iframe scrolling=\"no\" frameborder=\"no\" src=\"" + phetUri + "\"></iframe>";
+      recommendedWidth = 640 / 2;
+      recommendedHeight = 390 / 2;
+      provider_name = "phet";
+      type = "embed";
+
     } else if ((m = data.match(genericUriMatcher)) && !isDataFileUrl(m[1])) {
       uri = m[1];
       grabUri = uri;
       endPoint = "/api/webgrabber/" + (encodeURIComponent(btoa(grabUri)));
       html = data.replace(uri, " <img src=\"" + endPoint + "\" title=\"" + uri + "\"/> ");
-      recommendedWidth = 300;
-      recommendedHeight = 300;
-      sourceLink = uri;
+      recommendedWidth = 640 / 2;
+      recommendedHeight = 390 / 2;
+      sourceLink = uri;  
     } else {
       plainText = true;
     }
