@@ -232,8 +232,20 @@ var SpacedeckRoutes = {
           }.bind(this)
         }
       ]);
+      
+       this.router.add([
+        {
+          path: "/ytc",
+          handler: function(params) {
+            location.href = "/ytc";
+          }.bind(this)
+        }
+      ]); 
     }
+ 
+      
 
+    
     var foundRoute = this.router.recognize(path);
     if (foundRoute) {
       foundRoute[0].handler(foundRoute[0].params, on_success);

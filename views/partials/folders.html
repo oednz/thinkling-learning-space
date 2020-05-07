@@ -1,17 +1,18 @@
 <header id="folder-header" class="header" v-if="(active_view == 'folders' && active_folder)" v-cloak>
   <div v-cloak class="header-left pull-left">
-    <a class="btn btn-stroke-darken btn-md btn-round btn-icon" href="/spaces">
-      <span class="icon icon-home"></span>
+    <a class="btn btn-xs btn-round btn-icon" href="/spaces">
+      <span class="icon icon-soft icon-home"></span>
     </a>
-    <button v-if="logged_in && (active_space_role == 'editor' || active_space_role == 'admin')" class="btn btn-primary btn-md btn-round" v-on:click="create_space('space')">[[ __('create_space') ]]</button>
-    <button v-if="logged_in && (active_space_role == 'editor' || active_space_role == 'admin')" class="btn btn-stroke-darken btn-md btn-round" v-on:click="create_space('folder')">
-      <span v-bind:class="{'disabled-pro':!is_pro(user)}">[[  __('create_folder') ]]</span>
+    <span class="btn btn-sm btn-divider"></span>
+    <button v-if="logged_in && (active_space_role == 'editor' || active_space_role == 'admin')" class="btn btn-sm" v-on:click="create_space('space')"><span style="font-size:16px; color:#545454;" class="icon icon-sm icon-page-horizontal-plus"></span> [[ __('create_space') ]]</button>
+    <span class="btn btn-sm btn-divider"></span>
+    <button v-if="logged_in && (active_space_role == 'editor' || active_space_role == 'admin')" class="btn btn-sm" v-on:click="create_space('folder')"><span v-bind:class="{'disabled-pro':!is_pro(user)}"><span style="font-size:14px; color:#545454;" class="icon icon-sm  icon-folder-open"></span> [[  __('create_folder') ]]</span>
     </button>
   </div>
 
   <div class="header-right pull-right">
     <div class="dropdown top light m-r-20 compact-hidden" v-bind:class="{open : active_dropdown=='folder_sorting'}">
-      <button class="btn btn-sm btn-nude" v-on:click="activate_dropdown('folder_sorting')">
+      <button class="btn btn-xs btn-nude" v-on:click="activate_dropdown('folder_sorting')">
         <span>[[  __('sort_by') ]]</span>:
         <b v-if="folder_sorting=='updated_at'">[[  __('last_modified') ]]</b>
         <b v-if="folder_sorting=='name'">[[  __('title') ]]</b>
@@ -39,23 +40,23 @@
     </div>
 
     <label class="relative compact-hidden">
-      <span class="icon icon-sm icon-zoom no-events absolute-top-left" style="margin: 5px;"></span>
+      <span class="icon icon-sm icon-soft icon-zoom no-events absolute-top-left" style="margin: 3px;"></span>
       <input id="folder-search"
              type="search" name="search"
              style="padding-left: 40px !important; margin-right: 10px;"
              placeholder="[[  __('search') ]]"
-             class="input input-md input-white input-round no-b w-2"
+             class="input input-sm input-white input-round no-b w-2"
              v-model="folder_spaces_search" v-on:change="search_spaces">
     </label>
 
-    <button class="btn btn-stroke-darken btn-md btn-round" v-if="!user.confirmed_at" v-on:click="confirm_again()">
+    <button class="btn btn-stroke-darken btn-sm btn-round" v-if="user.confirmed_at" v-on:click="confirm_again()">
       <span v-if="!account_confirmed_sent">[[  __('email_unconfirmed') ]]</span>
       <span v-if="account_confirmed_sent">[[  __('confirmation_sent') ]]</span>
     </button>
 
     <div class="dropdown top right light" v-bind:class="{open: active_dropdown=='account'}">
       <button
-         class="profile-avatar btn btn-md btn-icon btn-darken btn-round"
+         class="profile-avatar btn btn-xs btn-icon btn-darken btn-round"
          v-bind:style="background_image_style([user.avatar_thumb_uri])"
          v-bind:class="{'has-avatar-image':!!user.avatar_thumb_uri}" v-on:click="show_account();">
         <span class="icon icon-user" v-if="logged_in && !user.avatar_thumb_uri"></span></button>
@@ -94,8 +95,8 @@
 
     </div>
 
-    <div class="btn-group dark round" id="meta-toggle" style="margin-right:10px">
-      <button class="btn btn-md btn-transparent btn-icon btn-icon" v-on:click="toggle_meta()">
+    <div class="btn-group darken round" id="meta-toggle" style="margin-right:10px">
+      <button class="btn btn-sm btn-transparent btn-icon btn-icon" v-on:click="toggle_meta()">
         <span class="jewel" style="color: white; background-color: red" v-if="meta_unseen>0">{{meta_unseen}}</span>
         <span class="icon icon-menu"></span>
       </button>
@@ -121,7 +122,7 @@
       </a>
 
       <div class="dropdown top light" v-bind:class="{open:active_dropdown=='breadcrumb'}" v-if="(active_folder._id != user.home_folder_id) && ((active_space_role == 'admin') || (active_space_role == 'editor'))">
-        <button type="button" class="btn btn-sm btn-transparent btn-dropdown" data-toggle="dropdown" v-on:click=" activate_dropdown('breadcrumb')">
+        <button type="button" class="btn btn-sm btn-transparent bc-folder btn-dropdown" data-toggle="dropdown" v-on:click=" activate_dropdown('breadcrumb')">
           <span>{{active_folder.name}}</span>
         </button>
         <div class="dropdown-menu" v-if="active_folder && active_folder._id != user.home_folder_id">
@@ -129,6 +130,7 @@
             <li><span class="tile-rename" v-on:click="rename_folder(active_folder)">[[__("rename")]]</span></li>
             <li v-if="active_space_role == 'admin'"><span class="tile-share" v-on:click="activate_access()">[[__("share")]]</span></li>
             <li><a v-on:click=" open_url('[[config.endpoint]]/api/spaces/'+active_folder._id+'/list')" target="_blank">[[__("list")]]</a></li>
+            <li v-on:click="activate_modal('folder-settings')"><span><span class="icon icon-sm icon-upload"></span>[[  __('delete') ]]</span></li>
           </ul>
         </div>
       </div>
@@ -141,7 +143,10 @@
     </div>
 
     <div id="folder-empty" v-if="(active_profile_spaces.length == 0)">
-      <div>
+        
+        <div>
+         <p>Hmm! Nothing here!</p>   
+        <p><img src="[[ '/images/felix.gif' | cdn ]]" width="190"></p>
         <p>[[  __('no_spaces_yet') ]]</p>
       </div>
     </div>
@@ -164,10 +169,13 @@
         <a href="/{{item.space_type}}s/{{item._id}}">
           <span class="item-thumbnail thumbnail-loading" v-if="item.space_type=='space'"></span>
           <span class="item-thumbnail" v-bind:style="space_thumbnail_style(item)"></span>
+          <span v-if="item.space_type=='folder'" class="item-title folder-title"> {{item.name}}</span>
         </a>
 
         <div class="item-meta" >
-          <span class="item-title">{{item.name}}</span>
+            <span v-if="item.space_type=='folder'" class="item-title"><span style="color:#888888;" class="icon icon-sm  icon-folder-open"></span></span>
+            <span v-if="item.space_type=='space'" class="item-title"><span style="color:#888888;" class="icon icon-sm  icon-page-vertical-text"></span> {{item.name}}</span>
+          
           <div class="pull-right dropdown center light" v-if="active_space_role=='admin'" v-bind:class="{open:(active_dropdown=='space_'+item._id || active_dropdown=='space_share_'+item._id)}">
             <button type="button" class="btn btn-transparent btn-dropdown no-min-w no-p" data-toggle="dropdown" v-on:click="activate_dropdown('space_'+item._id)">
             </button>
@@ -182,10 +190,10 @@
           </div>
         </div>
         <span class="item-appendix">
-          <span class="pull-right item-date">{{item.updated_at | date 'YYYY-MM-DD'}}</span>
+          <span class="pull-right item-date">{{item.updated_at | date 'DD MMM YYYY'}}</span>
 
           <span class="item-author">
-            <span class="profile-avatar btn btn-xs btn-icon btn-white btn-round m-r-10"
+            <span class="profile-avatar btn btn-xxs btn-icon btn-round m-r-10"
                   v-bind:style="background_image_style([item.creator.avatar_thumb_uri])"
                   v-bind:class="{'has-avatar-image':!!item.creator.avatar_thumb_uri}">
               <span class="icon icon-user" v-if="!item.creator.avatar_thumb_uri"></span>

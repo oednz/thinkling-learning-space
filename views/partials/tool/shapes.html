@@ -1,26 +1,37 @@
 <h4 class="dialog-title">[[__("tool_shape")]]</h4>
 
 <div id="shapes">
-  <div class="dialog-section no-p-h" style="white-space: normal;">
+   <div class="dialog-section no-p-h" style="white-space: normal;">
+    
+    <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('square',$event)">
+    <span class="icon icon-shape-square"></span>
+    <span class="icon-label">[[__("tool_square")]]</span>
+    </button>
+      
     <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('ellipse',$event)">
     <span class="icon icon-shape-circle"></span>
     <span class="icon-label">[[__("tool_circle")]]</span>
     </button>
 
+    <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('triangle',$event)">
+    <span class="icon icon-shape-triangle"></span>
+    <span class="icon-label">[[__("tool_triangle")]]</span>
+    </button> 
+       
+    <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('pentagon',$event)">
+    <span class="icon icon-shape-pentagon"></span>
+    <span class="icon-label">[[__("tool_pentagon")]]</span>
+    </button>
+         
     <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('hexagon',$event)">
     <span class="icon icon-shape-hexagon"></span>
     <span class="icon-label">[[__("tool_hexagon")]]</span>
     </button>
-
-    <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('square',$event)">
-    <span class="icon icon-shape-square"></span>
-    <span class="icon-label">[[__("tool_square")]]</span>
+      
+    <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('octagon',$event)">
+    <span class="icon icon-shape-octagon"></span>
+    <span class="icon-label">[[__("tool_octagon")]]</span>
     </button>
-
-    <!--button class="btn btn-icon-labeled btn-transparent rot45" v-on:click="add_shape('diamond',$event)">
-    <span class="icon icon-shape-square"></span>
-    <span class="icon-label">[[__("tool_diamond")]]</span>
-    </button-->
 
     <button class="btn btn-icon-labeled btn-transparent" v-on:click="add_shape('speechbubble',$event)">
     <span class="icon icon-shape-bubble"></span>

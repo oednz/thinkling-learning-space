@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <!--div class="dialog-section" v-show="background_mode=='color'">
+  <div class="dialog-section" v-show="background_mode=='color'">
     <div class="tab-switch round options-2"  v-bind:class="{'option-2':color_mode=='picker'}">
       <div class="options">
         <span class="option" v-on:click="activate_color_mode('palette')">[[__("palette")]]</span>
@@ -76,7 +76,7 @@
       </div>
       <span class="option-highlight"></span>
     </div>
-  </div-->
+  </div>
 
   <div class="" v-show="background_mode=='image'" v-if="active_space">
     <div class="background-image" v-bind:style="{height: '233px', 'background-image':'url('+active_space.background_uri+')', 'margin': '6px', 'border-radius': '3px'}" v-if="active_space.background_uri && !space_background_uploading">

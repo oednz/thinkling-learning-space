@@ -256,9 +256,21 @@ var SpacedeckBoardArtifacts = {
 
     if (provider=="youtube") {
       var vid = a.link_uri.match(/(v=|\/)([a-zA-Z0-9\-_]{11})/);
-      if (vid && vid.length>2) {
+      
+      var start = a.link_uri.match(/t=([^&<]+)/);
+        if (!start || !start.length) {
+        start = "t=0";   
+        }
+      
+      var end = a.link_uri.match(/e=([^&<]+)/);
+        if (!end || !end.length){
+        end = "e=0";   
+        }
+             
+        if (vid && vid.length>2) {
         var uri = "https://youtube.com/embed/"+vid[2];
-        return "<iframe frameborder=0 allowfullscreen src=\""+uri+"?showinfo=0&rel=0&controls=0\"></iframe>";
+        return "<iframe frameborder=0 allowfullscreen=1 src=\""+uri+"?start="+start[1]+"&end="+end[1]+"&showinfo=0&rel=0&controls=1&html5=1&autohide=1&fs=1\"></iframe>";
+        
       } else return "Can't resolve: "+a.payload_uri;
 
     } else if (provider=="dailymotion") {
@@ -282,6 +294,15 @@ var SpacedeckBoardArtifacts = {
 
       return ""; //<iframe frameborder=0 allowfullscreen src=\""+ a.meta.link_uri+"\"></iframe>
 
+    //Custom Phet SIMs 
+
+    } else if (provider=="phet") {
+        var phetUri = this.artifact_link(a);
+ 
+      return "<iframe frameborder=0 allowfullscreen src=\""+phetUri+"\"></iframe>"; //<iframe frameborder=0 allowfullscreen src=\""+ a.meta.link_uri+"\"></iframe>
+      //return ""+uri+"\"";
+
+      
     } else {
       return "Don't know how to embed "+a.mime+".";
     }

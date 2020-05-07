@@ -1,82 +1,71 @@
-# Spacedeck Open
+# Thinkling Learning Space
+## Web-based, Collaborative, Rich Media Curation and Presentation Tool for Educators and Students  
 
-This is the free and open source version of Spacedeck, a web based, real time, collaborative whiteboard application with rich media support. Spacedeck was developed in 6 major releases during Autumn 2011 until the end of 2016 and was originally a commercial SaaS. The developers were Lukas F. Hartmann (mntmn) and Martin Güther (magegu).
+Thinkling Learning Space is a modified version of Spacedeck Open (https://github.com/spacedeck/spacedeck-open), based specifically on master branch up to commit 79a3d39. 
+The first commit of this modified version incorporates minor bug fixes, improvements in the UI, and one new feature for now. The overall aim is to align more closely to the needs and requirements of the education community.
+Further fixes, modifications and new features are expected as we receive feedback from users while relying on code contributions and collaboration from the technical community.        
 
-The spacedeck.com online service was shut down on May 1st 2018. We decided to open-source Spacedeck to allow educational and other organizations who currently rely on Spacedeck to migrate to a self-hosted or local version.
+# Demo and Sandbox
 
-We appreciate filed issues, pull requests and general discussion.
-
-# Features
-
-- Create virtual whiteboards called *Spaces* with virtually unlimited size
-- Drag & drop images, videos and audio from your computer or the web
-- Write and format text with full control over fonts, colors and style
-- Draw, annotate and highlight with included graphical shapes
-- Turn your Space into a zooming presentation
-- Collaborate and chat in realtime with teammates, students or friends
-- Share Spaces on the web or via email
-- Export your work as printable PDF or ZIP
-
-# Data Import from Spacedeck.com
-
-Spacedeck Open has a data import feature that you can use to migrate your ZIP export from Spacedeck.com.
-
-1. Just copy your downloaded ZIP file into the spacedeck root folder. Don't extract it.
-2. Start your local Spacedeck.
-3. Navigate to *Account / Profile* (person icon in the top right corner).
-4. Click the *Import* button next to the ZIP file name. It is on the bottom of the page.
-5. Wait until console output has finished and you're done.
+Visit our [demo](https://demo.thinkling.org) and use credentials: demo@thinkling.org and Password: demo123
 
 # Requirements, Installation
 
-Spacedeck requires:
-
-- Node.js 9.x: Web Server / API. Download: https://nodejs.org
-
-To run Spacedeck, you only need Node.JS 9.x.
-
-To install all node dependencies, run (do this once):
-
+- Node.js 10.x: Web Server
+- To install all node dependencies run:
+    
     npm install
 
 # Configuration
 
 See [config/default.json](config/default.json)
+You may also tweak [models/default.db](models/default.db) if you want to point to a different database file.
 
 # Run (web server)
 
-    node spacedeck.js
+    node thinkling.js
 
 Then open http://localhost:9666 in a web browser.
 
-# Run (desktop app with integrated web server)
+# Media Conversion Dependencies
 
-    electron .
+- ffmpeg and ffprobe for video/audio conversion
+- audiowaveform for audio waveform rendering
+- ghostscript for PDF import
+- GraphicsMagick for image resize conversion
 
-# Optional Dependencies
 
-For advanced media conversion:
+# CSS
+ - To expedite a quick launch [public/stylesheets/style.css](public/stylesheets/style.css) has been crudely modified. In future releases you'll be able to rebuild the frontend CSS using gulp.
 
-- ffmpeg and ffprobe for video/audio conversion. Download: https://www.ffmpeg.org/download.html
-- audiowaveform for audio waveform rendering. Download: https://github.com/bbcrd/audiowaveform
-- ghostscript for PDF import. Download: https://www.ghostscript.com/download/gsdnld.html
+# TODO
+## Immediate
+- Tidy up code and styles
+- Update existing /replace obsolete modules
+- Fix touch events on non-touch devices
+- More stringent security for login and sign-up
+- Fix thumbnail rendering for SVG and Streaming video embeds 
+- Fix email confirmation     
 
-# Data Storage
+## Long Term
+- Replace phantom.js with a modern alternative
+- Add MathJax or KATEX support
+- Replace current scribble tool with something more usable
+- Fix save as zip issue
+- Develop an interface to display all public & authorized spaces 
 
-By default, media files are uploaded to the ```storage``` folder.
-The database is stored in ```database.sqlite``` by default.
+# Contributing
 
-# Hacking
-
-To rebuild the frontend CSS styles:
-
-    gulp styles
+We need your knowledge, insights, and expertise to bring this community effort to the next level. In general, using the issues register with suggestions, bug reports and code improvements is a good start. If you would like to contribute directly contact the Organization's admin to get access.        
 
 # License
 
-The Spacedeck logo and brand assets are registered trademarks of Spacedeck GmbH. All rights reserved.
+Thinkling Learning Space code is released under the GNU Affero General Public License Version 3 (GNU AGPLv3).
 
-Spacedeck Open source code is released under the GNU Affero General Public License Version 3 (GNU AGPLv3).
+    
+    Thinkling Learning Space - Web-based, Collaborative, Rich Media 
+    Curation and Presentation Tool for Educators and Students 
+    Copyright (C) 2020 Farnousch Sinclair, Education Foundation NZ
 
     Spacedeck Open - Web-based Collaborative Whiteboard For Rich Media
     Copyright (C) 2011-2018 Lukas F. Hartmann, Martin Güther

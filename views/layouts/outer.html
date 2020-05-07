@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Spacedeck Open – {% block title %}{% endblock %}</title>
+    <title>Thinkling – {% block title %}{% endblock %}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,34 +16,34 @@
     <link rel="stylesheet" href="[[ '/stylesheets/style.css' | cdn ]]">
     <script> var csrf_token = '[[ csrf_token ]]'; </script>
     
-    <script src="[[ '/javascripts/jquery-2.1.4.min.js' | cdn ]]"></script>
+    <script src="[[ '/javascripts/jquery-2.1.4.min.js' | cdn ]]"></script> 
   </head>
 
-  <body>
+  <body oncontextmenu="return false;">
     <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <header id="landing-header" class="header">
       <div class="header-left">
-        <a class="btn btn-transparent btn-nude" href="[[config.endpoint]]/"><img src="[[ '/images/sd5-logo.svg' | cdn ]]" width="190"></a>
+       <a class="btn btn-transparent btn-nude" href="[[config.endpoint]]/"><img src="[[ '/images/thinkling_logo.png' | cdn ]]" width="120"></a>
       </div>
 
       <div class="header-right pull-right">
-        {% if !user %}
+<!--     {% if !user %}
           <span class="btn-group dark round">
-            {% if (locale != "de") %}<a href="/t/de" rel="alternate" hreflang="de" class="btn btn-transparent btn-md">Deutsch</a>{% endif %}
-            {% if (locale != "en") %}<a href="/t/en" rel="alternate" hreflang="en" class="btn btn-transparent btn-md">English</a>{% endif %}
-            {% if (locale != "fr") %}<a href="/t/fr" rel="alternate" hreflang="fr" class="btn btn-transparent btn-md">Français</a>{% endif %}
+            {% if (locale == "de") %}<a href="/t/de" rel="alternate" hreflang="de" class="btn btn-transparent btn-md">Deutsch</a>{% endif %} 
+            {% if (locale == "en") %}<a href="/t/en" rel="alternate" hreflang="en" class="btn btn-transparent btn-md">English</a>{% endif %}
+            {% if (locale == "fr") %}<a href="/t/fr" rel="alternate" hreflang="fr" class="btn btn-transparent btn-md">Français</a>{% endif %} 
           </span>
 
-          <a class="btn btn-md btn-dark btn-round" href="/login">[[__("login")]]</a>
+          <a class="btn btn-md btn-white btn-round" href="/login">[[__("login")]]</a>
           <a class="btn btn-md btn-blue btn-round" href="/signup">[[__("signup")]]</a>
         {% else %}
           <a class="btn btn-md btn-blue btn-round" href="/spaces">[[__("spaces")]]</a>
           <a class="btn btn-md btn-dark btn-round" href="/logout">[[__("logout")]]</a>
 
         {% endif %}
-
+-->
       </div>
     </header>
 
@@ -52,10 +52,11 @@
     <div class="footer">
       <p>
         <div class="col-xs-6">
-          <a href="/contact">[[ __("contact") ]]</a>
-          <span style="color:#888">&copy; 2011–2018 The Spacedeck Open Developers <a href="https://github.com/spacedeck/spacedeck-open">https://github.com/spacedeck/spacedeck-open</a></span>
+          
+          <span>&copy; 2020 <a target="_blank" rel="noopener noreferrer" href="https://ednz.org/">Education Foundation New Zealand</a></span> <br>
+           <a href="/contact">[[ __("contact") ]]</a> | <a target="_blank" rel="noopener noreferrer" href="https://www.gnu.org/licenses/agpl-3.0.en.html">License AGPLv3</a> | <a target="_blank" rel="noopener noreferrer" href="https://github.com/oednz/thinkling-learning-space">Source</a>
         </div>
-      </p>
+      
     </div>
   </body>
 </html>

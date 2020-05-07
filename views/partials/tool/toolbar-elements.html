@@ -2,19 +2,6 @@
 
   <div class="btn-group dark">
 
-    <!--div id="search-dialog" class="dropdown bottom light center static" v-bind:class="{open:opened_dialog=='search'}">
-      <div class="btn-collapse in">
-        <button class="btn btn-transparent btn-icon-labeled" v-bind:class="{open:opened_dialog=='search'}"  v-on:click="open_dialog('search')" >
-          <span class="icon icon-search"></span>
-          <span class="icon-label">[[__("tool_search")]]</span>
-        </button>
-      </div>
-
-      <div class="dialog dialog-search">
-         xinclude "./search.html" 
-      </div>
-    </div-->
-
     <div class="dropdown bottom light center" v-bind:class="{open:opened_dialog=='shapes'}">
       <div class="btn-collapse in">
         <button class="btn btn-transparent btn-icon-labeled" v-bind:class="{open:opened_dialog=='shapes'}" v-on:click="open_dialog('shapes')">
@@ -76,8 +63,8 @@
         {% include "./zones.html" %}
       </div>
     </div>
-    
-    <button class="btn btn-divider" v-show="logged_in"></button>
+      
+
 
     <div class="dropdown bottom light center" v-show="logged_in" v-bind:class="{open:opened_dialog=='background'}">
       <div class="btn-collapse in">
@@ -92,6 +79,22 @@
       </div>
     </div>
 
+      
+    <button class="btn btn-divider" v-show="logged_in"></button>
 
+    <div class="dropdown bottom light center" v-bind:class="{open:opened_dialog=='embed'}">
+      <div class="btn-collapse in">
+        <button class="btn btn-transparent btn-icon-labeled" v-bind:class="{open:opened_dialog=='embed'}" v-on:click="open_dialog('embed')">
+          <span class="icon icon-embed-alt"></span>
+          <span class="icon-label">[[__("tool_embed")]]</span>
+        </button>
+      </div>
+
+      <div class="dialog">
+        {% include "./embed.html" %}
+      </div>
+    </div>  
+
+    
   </div>
 </div>

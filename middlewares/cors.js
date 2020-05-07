@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
     const parsedUrl = url.parse(origin, true, true);
 
     // FIXME
-    if (parsedUrl.hostname == "cdn.spacedeck.com") {
+    if (parsedUrl.hostname == "dkvls09rnkc4j.cloudfront.net") {
       res.header('Cache-Control', "max-age");
       res.header('Expires', "30d");
       res.removeHeader("Pragma");

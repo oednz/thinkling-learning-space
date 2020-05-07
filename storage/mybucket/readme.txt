@@ -1,0 +1,1 @@
+If change the name of this directory (assuming you are starting fresh and nothing is in it) you'll also need to edit the config file config/default.json

@@ -83,7 +83,7 @@ var SpacedeckSpaces = {
       location.reload();
     },
     ask_guestname: function(dft, cb) {
-      smoke.prompt(__('what_is_your_name', "Spacedeck") , function(content) {
+      smoke.prompt(__('what_is_your_name', "Thinkling") , function(content) {
         if (!content || (content.length === 0)) {
           this.ask_guestname(dft, cb);
         } else {
@@ -153,7 +153,7 @@ var SpacedeckSpaces = {
           is_home = (space_id == this.user.home_folder_id);
         }
 
-        document.title = "Loading… | Spacedeck";
+        document.title = "Loading… | Thinkling";
 
         load_space(space_id, function(space, role) {
           document.title = space.name;
@@ -172,7 +172,7 @@ var SpacedeckSpaces = {
 
           if (space.space_type == "folder") {
             this.active_space = {advanced:{}};
-            document.title = "Spacedeck";
+            document.title = "Thinkling";
 
             load_spaces(space_id, is_home, function(spaces) {
               space.children = spaces;
@@ -301,6 +301,13 @@ var SpacedeckSpaces = {
             // FIXME
             this.active_join_link = "";
             this.join_link_role = "viewer";
+            
+            //Added
+            if (this.active_space_role == "viewer" || this.active_space_role == "viewer") {
+              this.present_mode = true;
+              this.active_space_is_readonly = true;
+            }
+            
 
             // FIXME
             if (this.active_space_role == "admin") {
@@ -630,10 +637,16 @@ var SpacedeckSpaces = {
           this.download_space_as_pdf(this.active_space);
         } else if (e == "ZIP") {
           this.download_space_as_zip(this.active_space);
+          }else if (e == "TXT"){
+          this.download_space_as_list(this.active_space);
+        }else if (e == "Image"){
+          this.download_space_as_png(this.active_space);
         }
       }.bind(this), {
         button_1: "PDF",
         button_2: "ZIP",
+        //button_3: "TXT",
+        button_3: "Image",
         button_cancel:__("cancel")
       });
 
@@ -654,6 +667,7 @@ var SpacedeckSpaces = {
       }.bind(this));
     },
 
+
     download_space_as_zip: function(space) {
       this.global_spinner = true;
 
@@ -667,7 +681,8 @@ var SpacedeckSpaces = {
         alert("ZIP export problem (" + xhr.status + ").");
       }.bind(this));
     },
-    
+
+
     download_space_as_list: function(space) {
       this.global_spinner = true;
       location.href = "/api/spaces/" + space._id + "/list";
@@ -723,7 +738,7 @@ var SpacedeckSpaces = {
       this.deselect();
       this.present_mode = !this.present_mode;
       if (this.present_mode) {
-        //this.go_to_first_zone();
+        this.go_to_first_zone();
       }
     },
 
@@ -949,7 +964,11 @@ var SpacedeckSpaces = {
     close_access: function() {
       this.close_modal();
     },
-
+    
+    open_yt_cropper: function() {
+      window.open("/ytc");
+    },
+    
     show_offline_help: function() {
       smoke.confirm(__('was_offline'), function(confirmed) {
         if (!confirmed) return;

@@ -17,7 +17,7 @@ SpacedeckAccount = {
     },
 
     start_zip_import: function(f) {
-      if (confirm("Your archive will be imported in the background. This can take a few minutes. You can continue using Spacedeck in the meantime.")) {
+      if (confirm("Your archive will be imported in the background. This can take a few minutes. You can continue using Thinkling in the meantime.")) {
         import_zip(this.user, f);
       }
     },

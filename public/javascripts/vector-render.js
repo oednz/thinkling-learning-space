@@ -48,7 +48,7 @@ function render_vector_drawing(a, padding) {
 
     var d = "M" + (cps.dx + padding) + "," + (cps.dy + padding) + " Q" + (scaledMiddlePoint.dx + padding) + "," + (scaledMiddlePoint.dy + padding) + " " + (cpe.dx + padding) + "," + (cpe.dy + padding);
     var tip  = "<defs><marker id='ae" + markerId + "' refX=\"0.1\" refY=\"3\" markerWidth=\"3\" markerHeight=\"6\" orient=\"auto\">";
-        tip += "<path d=\"M-3,0 V6 L3,3 Z\" fill=\""+a.stroke_color+"\" stroke-width=\"0\"/></marker></defs>";
+        tip += "<path d=\"M-0,0 V6 L3,3 Z\" fill=\""+a.stroke_color+"\" stroke-width=\"0\"/></marker></defs>";
     var svg = tip + "<path d='" + d + "' style='stroke-width:" + a.stroke + ";' marker-end='url(#ae" + markerId + ")'/>";
 
     return svg;

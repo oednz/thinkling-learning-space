@@ -1,4 +1,4 @@
-const spacedeck = require('./spacedeck')
+const spacedeck = require('./thinkling')
 
 const electron = require('electron')
 const electronApp = electron.app
@@ -8,6 +8,7 @@ let mainWindow
 function createWindow () {
   mainWindow = new BrowserWindow({width: 1200, height: 700})
   mainWindow.loadURL("http://localhost:9666")
+  //mainWindow.loadURL("http://localhost:80")
   mainWindow.on('closed', function () {
     mainWindow = null
   })

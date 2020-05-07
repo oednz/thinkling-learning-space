@@ -23,7 +23,7 @@ router.get('/ping', (req, res) => {
 });
 
 router.get('/spaces', (req, res) => {
-  res.render('spacedeck', { title: 'Spaces' });
+  res.render('thinkling', { title: 'Spaces' });
 });
 
 router.get('/not_found', (req, res) => {
@@ -31,31 +31,31 @@ router.get('/not_found', (req, res) => {
 });
 
 router.get('/confirm/:token', (req, res) => {
-  res.render('spacedeck', { title: 'Space' });
+  res.render('thinkling', { title: 'Space' });
 });
 
 router.get('/folders/:id', (req, res) => {
-  res.render('spacedeck', {});
+  res.render('thinkling', {});
 });
 
 router.get('/signup', (req, res) => {
-  res.render('spacedeck', {});
+  res.render('thinkling', {});
 });
 
 router.get('/accept/:id', (req, res) => {
-  res.render('spacedeck', {});
+  res.render('thinkling', {});
 });
 
 router.get('/password-reset', (req, res) => {
-  res.render('spacedeck', { title: 'Signup' });
+  res.render('thinkling', { title: 'Signup' });
 });
 
 router.get('/password-confirm/:token', (req, res) => {
-  res.render('spacedeck', { title: 'Signup' });
+  res.render('thinkling', { title: 'Signup' });
 });
 
 router.get('/team', (req, res) => {
-  res.render('spacedeck');
+  res.render('thinkling');
 });
 
 router.get('/de/*', (req, res) => {
@@ -87,15 +87,15 @@ router.get('/it', (req, res) => {
 });
 
 router.get('/account', (req, res) => {
-  res.render('spacedeck');
+  res.render('thinkling');
 });
 
 router.get('/login', (req, res) => {
-  res.render('spacedeck');
+  res.render('thinkling');
 });
 
 router.get('/logout', (req, res) => {
-  res.render('spacedeck');
+  res.render('thinkling');
 });
 
 router.get('/contact', (req, res) => {
@@ -108,6 +108,10 @@ router.get('/about', (req, res) => {
 
 router.get('/terms', (req, res) => {
   res.render('public/terms');
+});
+
+router.get('/ytc', (req, res) => {
+  res.render('public/ytc');
 });
 
 router.get('/privacy', (req, res) => {
@@ -147,7 +151,7 @@ router.get('/s/:token', (req, res) => {
 });
 
 router.get('/spaces/:id', (req, res) => {
-  res.render('spacedeck', { title: 'Space' });
+  res.render('thinkling', { title: 'Space' });
 });
 
 module.exports = router;

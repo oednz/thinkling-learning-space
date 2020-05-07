@@ -1,4 +1,5 @@
 <!-- FIXME modal -->
+<!--
 <div class="modal" v-if="(duplicate_folders.length > 0)" v-cloak>
   <div class="modal-wrapper">
     <div class="modal-dialog">
@@ -39,45 +40,16 @@
     </div>
   </div>
 </div>
-
-<div v-cloak class="header-left" v-show="active_space_loaded">
-  <div class="btn-group dark">
+-->
+<div v-cloak class="header-left" v-show="active_space_loaded && !present_mode">
+  
+    <div class="btn-group dark">
 
     <div class="pull-left">
-      <a
-         class="btn btn-stroke-darken btn-md btn-round btn-icon"
-         title="[[__("home")]]" href="/spaces"
-         v-if="(logged_in && !embedded && !active_space.parent_space_id && !guest_nickname)">
-        <span class="icon icon-home"></span>
-      </a>
 
-      <a
-         class="btn btn-stroke-darken btn-md btn-round btn-icon"
-         title="[[__("parent_folder")]]"
-         href="/folders/{{active_space.parent_space_id}}"
-         v-if="(active_space.parent_space_id && !guest_nickname)">
-
-        <span class="icon icon-arrow-left-light"></span>
-      </a>
-
-      <input class="input input-md input-transparent w-auto"
-             id="space-title"
-             v-model="active_space.name" name="title" v-on:keydown="save_space_keydown($event)"
-             v-if="space_editing_title && logged_in" style="padding-right:0" v-focus>
-
-      <span class="input input-md input-transparent w-auto"
-            v-if="!space_editing_title && logged_in"
-            v-on:click="edit_space_title()">{{active_space.name}}</span>
-
-      <span v-if="!logged_in" class="btn btn-dark btn-round btn-md">{{active_space.name}}</span>
-
-      <button class="btn btn-md btn-transparent btn-icon" v-if="space_editing_title" v-on:click="save_space_keydown()">
-        <span class="icon icon-check"></span>
-      </button>
-
-      <div class="dropdown top left light" v-bind:class="{open: active_dropdown=='space'}">
-        <button class="btn btn-md btn-icon btn-dark" v-on:click="activate_dropdown('space')">
-          <span class="icon icon-triangle-down"></span></button>
+      <div class="dropdown top left" v-bind:class="{open: active_dropdown=='space'}" v-if="(logged_in && !embedded && active_space.parent_space_id && !guest_nickname)">
+        <button class="btn btn-md btn-transparent btn-icon" v-on:click="activate_dropdown('space')">
+          <span class="icon icon-menu"></span></button>
 
         <div class="dropdown-menu" role="menu">
           <ul class="select-list">
@@ -95,19 +67,29 @@
                 <span>[[  __('rename') ]]</span>
               </span>
             </li>
-
+        
+        <!--
             <li v-on:click="duplicate_space_into_folder()" v-if="logged_in">
               <span>
                 <span class="icon icon-sm icon-duplicate"></span>
                 <span>[[  __('duplicate') ]]</span>
               </span>
             </li>
-            
-            <li v-on:click="download_space()">
+        
+        
+            <li v-on:click="download_space()" v-if="!guest_nickname">
               <span>
                 <span class="icon icon-sm icon-download"></span>
                 <span>[[  __('download_space') ]]</span>
               </span>
+            </li>
+        -->
+			<li v-on:click="open_yt_cropper()">    
+              <span>
+                <span class="icon icon-sm icon-link,"></span>
+                <span>[[  __('crop_youtube') ]]</span>
+              </span>
+                </a>
             </li>
 
             <li v-on:click="activate_modal('support')" v-if="logged_in">
@@ -119,12 +101,13 @@
           </ul>
         </div>
       </div>
-
     </div>
-  </div>
-
+    </div>
+<br>
   <span class="btn btn-red btn-md" id="offline-indicator" v-bind:class="{offline: was_offline}" v-on:click="show_offline_help()">[[__("offline")]]</span>
 </div>
+
+<!-- RIGHT BLOCK -->
 
 <div v-cloak class="header-right" v-if="active_space_loaded">
 
@@ -142,10 +125,17 @@
   </span>
 
   <div class="btn-group dark" v-if="active_space_role!='viewer'">
-    <button class="btn btn-md btn-transparent btn-icon" title="Start Presentation (others follow what you see)" v-on:click="toggle_present_mode()" v-bind:class="{open:present_mode}">
-      <span class="icon icon-presentation"></span>
-    </button>
-  </div>
+
+     <span v-if="!present_mode && active_space_artifacts.length > 0">	            
+         <button class="btn edit-mode btn-sm btn-transparent btn-icon  blink" title="Edit Mode (Switch to presentation mode to present)">
+     <span class="icon icon-arrow-right"></span>
+         </button>
+     </span>
+ 
+        <button class="btn btn-md btn-transparent btn-icon" title="Presentation Mode (toggles to edit mode)" v-on:click="toggle_present_mode()" v-bind:class="{open:present_mode}">
+            <span class="icon icon-presentation"></span>
+        </button>
+   </div>
   
   <div class="btn-group dark round" v-if="zones.length">
     <button class="btn btn-md btn-transparent btn-icon" v-on:click="go_to_previous_zone()" title="[[__("Previous Zone")]]">
@@ -158,17 +148,32 @@
       <span class="icon icon-triangle-4-right"></span>
     </button>
   </div>
-  
-  <!--button class="btn btn-md btn-dark btn-round btn-icon" v-on:click="download_space()" title="[[__("download_space")]]">
+ <!-- 
+ <button class="btn btn-md btn-dark btn-round btn-icon" v-on:click="download_space()" title="[[__("download_space")]]">
     <span class="icon icon-download"></span>
-  </button-->
+  </button>
+-->
+ <div v-if="active_space_loaded" v-cloak>
+  <div class="btn-group dark">
+    <button class="btn btn-icon btn-md btn-transparent" v-on:click="zoom_in()">
+      <span class="icon icon-zoom-in"></span>
+    </button>
+    <button class="btn btn-md btn-transparent no-p" v-on:click="zoom_to_original()">
+      {{viewport_zoom_percent}}%
+    </button>
+    <button class="btn btn-icon btn-md btn-transparent" v-on:click="zoom_out()">
+      <span class="icon icon-zoom-out"></span>
+    </button>
+  </div>
+</div>
 
   <div class="btn-group dark" id="meta-toggle" style="margin-right:10px">
     <button class="btn btn-md btn-transparent btn-icon" v-on:click="toggle_meta()" title="[[__("chat")]]">
-      <span class="jewel" style="color: white; background-color: red" v-if="meta_unseen>0">{{meta_unseen}}</span>
+      <span class="jewel" style="color: white; background-color: black" v-if="meta_unseen>0">{{meta_unseen}}</span>
       <span class="icon icon-messages"></span>
     </button>
   </div>
+
 </div>
 
 {% include "./tool/toolbar-elements.html" %}
@@ -181,9 +186,10 @@
   <div class="space-empty" v-cloak v-if="active_view == 'space' && !present_mode && active_space_artifacts.length == 0">
     <div class="table-fake">
       <div class="cell">
-        <p>Click anywhere to add content.<br>
-          You can also drop images, sounds and video<br>
-          or use copy and paste.</p>
+          <p><b>Click anywhere to add content.</b><br>
+              You can also paste links to videos, podcasts and iframes,<br> 
+          or drag and drop local images and documents.
+        </p>
       </div>
     </div>
   </div>
@@ -232,22 +238,26 @@
             </span>
           </span>
         <!-- text -->
-        <div v-if="a.view.major_type == 'text'" class="text" v-bind:style="a.view.inner_style">
-          <div class="text-table">
+        <div v-if="a.view.major_type == 'text'" class="text" v-bind:style="a.view.inner_style">        
+            <div class="text-table">
             <div class="text-cell" v-bind:style="a.view.text_cell_style">
               <div class="text-column" class="text-editing" v-sd-richtext:obj="a" v-show="editing_artifact_id==a._id">{{{a.description}}}</div>
+            
+              <div v-if="!a.view.interactive && !present_mode && a.description.length>200" v-on:click="a.view.interactive=1" class="icon icon-move interact"></div> 
+              
               <div class="text-column" v-show="editing_artifact_id!=a._id">{{{a.description|urls_to_links}}}</div>
             </div>
           </div>
 
           <span v-if="a.view.link.length>0" class="link-wrapper">
-            <a class="link btn btn-round btn-primary btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank">{{a.view.link_caption}}</a>
+              <a class="link btn btn-link btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank">{{a.view.link_caption}}</a>
           </span>
-
+            
           <div class="btn btn-xs btn-icon btn-round btn-primary edit" v-show="editing_artifact_id!=a._id && is_selected(a)" v-on:touchstart="delayed_edit_artifact($event)"><span class="icon icon-pencil" v-on:click="toggle_selected_artifact_editing(true)" v-on:"touchstart:delayed_edit_artifact($event)"></span></div>
           <input v-show="is_selected(a)" type="text" id="ios-focuser-{{a._id}}" class="ios-focuser">
         </div>
 
+        
         <!-- drawing (annotation) -->
         <div v-if="a.view.major_type == 'vector'" class="clip" v-bind:style="a.view.inner_style">
           <div>{{{a.view.vector_svg}}}</div>
@@ -263,7 +273,7 @@
             </div>
           </div>
           <span v-if="a.view.link.length>0" class="link-wrapper">
-            <a class="link btn btn-round btn-primary btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank">{{a.view.link_caption}}</a>
+            <a class="link btn btn-link btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank">{{a.view.link_caption}}</a>
           </span>
 
           <div class="btn btn-xs btn-icon btn-round btn-primary edit" v-show="editing_artifact_id!=a._id && is_selected(a)" v-on:touchstart="delayed_edit_artifact($event)"><span class="icon icon-pencil" v-on:click="toggle_selected_artifact_editing(true)" v-on:"touchstart:delayed_edit_artifact($event)"></span></div>
@@ -271,11 +281,11 @@
         </div>
 
         <!-- svg image -->
-        <div v-if="a.view.major_type == 'svg'" class="svg" v-bind:style="a.view.inner_style">
-          <img v-bind:src="a.view.payload_uri"></img>
+        <div v-if="a.view.major_type == 'svg'" class="svg" v-bind:style="a.view.inner_style + '; background-image: url('+a.view.payload_uri+');'">
+          <!-- <img v-bind:src="a.view.payload_uri"></img> -->
         </div>
 
-        <!-- image -->
+        <!-- image Begin customised-->
         <div v-if="a.view.major_type == 'image'" class="image" v-bind:style="a.view.inner_style + '; background-image: url('+a.view.thumbnail_uri+');'">
           <span class="title">{{a.title}}</span>
           <div class="spinner"></div>
@@ -288,16 +298,16 @@
 
           <a class="btn btn-md btn-icon btn-round btn-primary edit"
             v-show="a.mime == 'application/pdf'"
-            v-bind:href="a.payload_uri" target="_blank"
-            ><span class="icon icon-link"></span></a>
+            v-bind:href="a.payload_uri" target="_blank"><span class="icon icon-link"></span></a>
 
           <span v-if="a.view.link.length>0" class="link-wrapper">
-            <a class="link btn btn-round btn-primary btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank">{{a.view.link_caption}}</a>
-          </span>
-        </div>
-
+            <a class="link btn btn-link btn-sm" v-if="a.view.link" v-bind:href="a.view.link" target="_blank"><span class="icon icon-link"></span>{{a.view.link_caption}}</a>
+          </span> 
+         </div>
+        <!-- image end-->
+        
         <!-- video -->
-        <div v-if="a.view.major_type == 'video'" v-videoplayer="a" class="video" v-bind:style="a.view.inner_style + ';background-image: url('+a.view.thumbnail_uri+');'">
+        <div v-if="a.view.major_type == 'video'" v-videoplayer="a" class="video" v-bind:style="a.view.inner_style + ';background-image: url('');'">
           <video preload="metadata" v-bind:poster="a.view.thumbnail_uri">
             <source v-for="rep in a.payload_alternatives" v-bind:src="rep.payload_uri" v-bind:type="rep.mime" />
             <source v-if="a.payload_uri && a.mime" v-bind:src="a.payload_uri" v-bind:type="a.mime" />
@@ -306,16 +316,16 @@
           <div class="tl-controls">
             <div class="btn btn-md btn-toggle btn-round" v-bind:class="{alt:a.player_view.state=='playing'}">
               <span class="btn-option play">
-                <span class="icon icon-controls-play"></span>
+                <span class="icon icon-red icon-controls-play"></span>
               </span>
 
               <span class="btn-option pause">
-                <span class="icon icon-controls-pause"></span>
+                <span class="icon icon-blue icon-soft icon-controls-pause"></span>
               </span>
             </div>
 
             <span class="btn btn-md btn-round btn-icon stop" v-show="a.player_view.state=='playing' || a.player_view.state=='paused'">
-              <span class="icon icon-controls-stop"></span>
+              <span class="icon icon-blue icon-soft icon-controls-stop"></span>
             </span>
 
           </div>
@@ -340,16 +350,16 @@
           <div class="tl-controls">
             <div class="btn btn-md btn-toggle btn-round" v-bind:class="{alt:a.player_view.state=='playing'}">
               <span class="btn-option play">
-                <span class="icon icon-controls-play"></span>
+                <span class="icon icon-red icon-controls-play"></span>
               </span>
 
               <span class="btn-option pause">
-                <span class="icon icon-controls-pause"></span>
+                <span class="icon icon-blue icon-controls-pause"></span>
               </span>
             </div>
 
             <span class="btn btn-md btn-round btn-icon stop" v-show="a.player_view.state=='playing' || a.player_view.state=='paused'">
-              <span class="icon icon-controls-stop"></span>
+              <span class="icon icon-blue icon-controls-stop"></span>
             </span>
 
             <span class="tl-title" v-show="a.w>=400">{{a.view.filename}}</span>
@@ -388,7 +398,7 @@
           v-bind:style="{'background-image': 'url('+a.view.thumbnail_uri+')'}" 
           v-bind:class="{interactive:(a.view.interactive || present_mode)}">
           {{{a.view.oembed_html}}}
-          <button class="btn btn-icon btn-primary btn-round interact" v-on:click="a.view.interactive=1" v-if="!a.view.interactive && !present_mode"><span class="icon icon-tool-pointer"></span></button>
+          <button class="btn btn-sm btn-icon btn-round interact" v-on:click="a.view.interactive=1" v-if="!a.view.interactive && !present_mode"><span class="icon icon-move"></span></button>
         </div>
 
         <!-- file -->
@@ -455,7 +465,7 @@
     </div>
     <!-- handles end -->
 
-    <div class="cursor" v-for="c in user_cursors" v-bind:style="{left: c.x + 'px', top: c.y+'px'}"><span class="btn btn-round btn-sm btn-dark"><span class="icon icon-tool-pointer"></span> {{c.name}}</div>
+    <div class="cursor" v-for="c in user_cursors" v-bind:style="{left: c.x + 'px', top: c.y+'px'}"><span class="btn btn-round btn-sm btn-dark"><span class="icon icon-user"></span> {{c.name}}</div>
 
   </div>
   <!-- wrapper end -->
@@ -479,15 +489,80 @@
   </div>
 
   <div class="btn-group dark" style="position:absolute;bottom:20px;right:20px;">
-    <button class="btn btn-icon btn-md btn-transparent" v-on:click="zoom_in()">
-      <span class="icon icon-plus"></span>
-    </button>
     <button class="btn btn-md btn-transparent no-p" v-on:click="zoom_to_original()">
-      {{viewport_zoom_percent}}%
-    </button>
-    <button class="btn btn-icon btn-md btn-transparent" v-on:click="zoom_out()">
-      <span class="icon icon-minus"></span>
+        <span class="icon icon-resize-small"></span>
     </button>
   </div>
 
 </div>
+
+<!-- header-left block moved to bottom -->
+
+<div v-cloak class="btn-group dark" style="position:absolute;bottom:20px;left:20px;" v-show="active_space_loaded && !present_mode">
+  
+    <div class="btn-group dark">
+
+    <div class="pull-left">
+      
+    <a
+         class="btn btn-icon btn-sm btn-transparent-folder"
+         title="[[__('home')]]" href="/spaces"
+         v-if="(logged_in && !embedded && active_space.parent_space_id && !guest_nickname)">
+        <span class="icon icon-home"></span>
+      </a>
+
+    </div>
+    </div>
+        <a
+         class="btn btn-icon btn-sm btn-transparent-folder"
+         title="[[__('parent_folder')]]"
+         href="/folders/{{active_space.parent_space_id}}"
+         v-if="(active_space.parent_space_id && !guest_nickname)">
+        <span class="icon icon-arrow-left-up"></span>
+        </a>
+        <!--
+        <span class="icon icon-md btn-divider"></span> 
+        -->
+    
+    <input class="input input-sm input-white w-auto"
+    id="space-title"
+    v-model="active_space.name" name="title" v-on:keydown="save_space_keydown($event)"
+    v-if="space_editing_title && logged_in" style="padding-right:0" v-focus>
+
+        <span class="input input-sm input-white w-auto"
+        v-if="!space_editing_title && logged_in"
+        v-on:click="edit_space_title()">{{active_space.name}} 
+            <button class="btn  btn-icon btn-xs btn-transparent">
+                <span class="icon icon-xs icon-pencil"></span>
+            </button> 
+        </span>
+
+
+        <span v-if="!logged_in" class="btn btn-dark btn-md">{{active_space.name}}</span>
+
+      <button class="btn btn-red btn-sm btn-icon" v-if="space_editing_title" v-on:click="save_space_keydown()">
+        <span class="icon icon-check"></span>
+      </button>
+        
+     <div class="btn-group dark" v-if="active_space_role!='viewer' && active_space.access_mode=='public'">
+        <button class="btn btn-green btn-xs btn-transparent btn-icon" title="Public Access Mode (toggles to private mode)" v-on:click="toggle_space_access_mode()" >
+            <span class="icon icon-xs icon-lock-open"></span>
+        </button>
+    </div> 
+        
+    <div class="btn-group dark" v-if="active_space_role!='viewer' && active_space.access_mode=='private'">
+        <button class="btn btn-red btn-xs btn-transparent btn-icon" title="Private Access Mode (toggles to public mode)" v-on:click="toggle_space_access_mode()" >
+            <span class="icon icon-xs icon-lock-closed"></span>
+        </button>
+    </div> 
+        
+</div>
+
+
+
+
+
+
+
+
+

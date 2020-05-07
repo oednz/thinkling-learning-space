@@ -1,15 +1,11 @@
-{
-  "team_name": "My Open Spacedeck",
-  "contact_email": "support@example.org",
+﻿{
+  "team_name": "Thinkling Learning Space",
+  "contact_email": "youremail address",
 
   "endpoint": "http://localhost:9666",
 
-  "storage_region": "eu-central-1",
-  //"storage_bucket": "sdeck-development",
-  //"storage_cdn": "http://localhost:9123/sdeck-development",
-  //"storage_endpoint": "http://storage:9000",
-
-  "storage_bucket": "my_spacedeck_bucket",
+  "storage_region": "us-west-2",
+  "storage_bucket": "mybucket",
   "storage_cdn": "/storage",
   "storage_local_path": "./storage",
 
@@ -24,10 +20,10 @@
 
   // Choose "console" or "smtp"
   "mail_provider": "smtp",
-  "mail_smtp_host": "your.smtp.host",
+  "mail_smtp_host": "",
   "mail_smtp_port": 465,
   "mail_smtp_secure": true,
   "mail_smtp_require_tls": true,
-  "mail_smtp_user": "your.smtp.user",
-  "mail_smtp_pass": "your.secret.smtp.password"
+  "mail_smtp_user": "",
+  "mail_smtp_pass": ""
 }
